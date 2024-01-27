@@ -146,5 +146,11 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+
+		/* FIXME: once telegram mini-app is not closed on scroll down this can be removed */
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1000;
 	}
 </style>
