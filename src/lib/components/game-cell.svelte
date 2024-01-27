@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Cell } from '$lib/types';
+	import type { Cell } from '$lib/types'
 
-	export let index: number;
-	export let value: string;
-	export let neighbors: Cell[];
-	export let path: string;
-	export let transform: string;
-	export let checked: boolean = false;
+	export let index: number
+	export let value: string
+	export let neighbors: Cell[]
+	export let path: string
+	export let transform: string
+	export let checked: boolean = false
 </script>
 
 <g class="cell" class:checked on:mouseenter on:mouseleave on:mousedown id={index.toFixed()}>
