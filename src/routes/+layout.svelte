@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte'
+	import { onMount } from 'svelte'
 	import '../style.css'
 	import type { Telegram as TelegramType } from '@twa-dev/types'
 
 	let Telegram: TelegramType
 
 	onMount(() => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		Telegram = (window as any).Telegram
 		// Initialize Telegram WebApp
 		Telegram.WebApp.ready()

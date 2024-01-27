@@ -6,6 +6,7 @@
 	export let checked: boolean = false
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <g class="cell" class:checked on:mouseenter on:mouseleave on:mousedown id={index.toFixed()}>
 	<path class="bg" d={cells[index].path} />
 	<text transform={cells[index].transform}>

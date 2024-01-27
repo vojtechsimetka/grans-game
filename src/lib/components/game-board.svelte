@@ -81,7 +81,9 @@
 					if (cell) {
 						onmouseenter(cell)
 					}
-				} catch (error) {}
+				} catch (error) {
+					console.error(error)
+				}
 			}
 		}
 	}
@@ -89,6 +91,7 @@
 	let msg = 'hello'
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="wrapper" on:mouseup={onmouseup} on:touchend={onmouseup}>
 	<svg
 		version="1.1"
@@ -101,6 +104,7 @@
 		viewBox="0, 0, 320, 320"
 		on:touchmove={handleTouchMove}
 	>
+		<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 		{#each gameBoard.cells as _, index}
 			<GameCellBg {index} />
 		{/each}
