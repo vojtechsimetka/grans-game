@@ -1,13 +1,10 @@
 <script lang="ts">
-	import type { Cell } from '$lib/types'
+	import { cells } from './cells'
 
-	export let value: string
-	export let neighbors: Cell[]
-	export let path: string
-	export let transform: string
+	export let index: number
 </script>
 
-<path d={path} />
+<path d={cells[index].path} />
 
 <style>
 	path {

@@ -1,22 +1,19 @@
 <script lang="ts">
-	import type { Cell } from '$lib/types'
+	import { cells } from './cells'
 
 	export let index: number
 	export let value: string
-	export let neighbors: Cell[]
-	export let path: string
-	export let transform: string
 	export let checked: boolean = false
 </script>
 
 <g class="cell" class:checked on:mouseenter on:mouseleave on:mousedown id={index.toFixed()}>
-	<path class="bg" d={path} />
-	<text {transform}>
+	<path class="bg" d={cells[index].path} />
+	<text transform={cells[index].transform}>
 		<tspan y="12.804" font-family="Arial-BoldMT" font-size="33" fill="#000000">
 			{value.toUpperCase()}
 		</tspan>
 	</text>
-	<path class="fg" d={path} />
+	<path class="fg" d={cells[index].path} />
 </g>
 
 <style>
