@@ -3,3 +3,8 @@ export interface Cell {
 	checked: boolean
 	neighbors: Cell[]
 }
+
+export interface Board {
+	board: string[]
+	words: string[]
+}

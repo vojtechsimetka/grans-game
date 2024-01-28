@@ -4,11 +4,14 @@ export class GameBoard {
 	cells: Cell[]
 	selectedCells: Cell[] = []
 	score: number = 0
+	words: string[] = []
 
-	constructor(letters: string[]) {
+	constructor(letters: string[], words: string[]) {
 		if (letters.length !== 19) {
 			throw new Error('Board must have 19 cells')
 		}
+
+		this.words = words
 
 		this.cells = letters.map((value) => ({
 			value,

@@ -4,28 +4,11 @@
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
 	import { onMount } from 'svelte'
+	import boards from '$lib/data/boards.json'
 
-	let gameBoard = new GameBoard([
-		'a',
-		'p',
-		'o',
-		'l',
-		'p',
-		's',
-		'a',
-		'l',
-		'e',
-		'a',
-		'p',
-		'o',
-		'l',
-		'p',
-		's',
-		'a',
-		'l',
-		'e',
-		'a',
-	])
+	const randomBoard = boards[Math.floor(Math.random() * boards.length)]
+
+	let gameBoard: GameBoard = new GameBoard(randomBoard.board, randomBoard.words)
 
 	let isMouseDown = false
 
@@ -108,8 +91,6 @@
 			}
 		}, 1000)
 	})
-
-	$: console.log(gameBoard.selectedCells.length === 0 && words.size !== 0)
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
