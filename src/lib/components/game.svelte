@@ -99,6 +99,7 @@
 		list-style: none;
 		text-align: center;
 		height: 80vh;
+		padding: 0;
 	}
 	li {
 		font-size: 1.5rem;
