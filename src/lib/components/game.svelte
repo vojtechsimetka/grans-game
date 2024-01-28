@@ -9,9 +9,9 @@
 
 	let words: Set<string> = new Set<string>()
 	let timer: NodeJS.Timeout
-	let waitTime = 0
-	let gameTime = 0
-	let scoreTime = 0
+	let waitTime = -1
+	let gameTime = -1
+	let scoreTime = -1
 	let nextBoardSeed = Math.ceil(Date.now() / 120000) * 120000
 	let thisBoardSeed = nextBoardSeed - 120000
 	let randomBoard =
@@ -28,11 +28,8 @@
 			scoreTime = waitTime - gameTime
 
 			if (waitTime <= 0) {
-				const now = new Date()
-				const minutes = now.getMinutes()
-				const seconds = now.getSeconds()
-				const milliseconds = now.getMilliseconds()
-				waitTime = ((2 - (minutes % 2)) * 60 - seconds) * 1000 - milliseconds
+				waitTime = Math.ceil(Date.now() / 120000) * 120000 - Date.now()
+				gameTime = waitTime - 30 * 1000
 
 				nextBoardSeed = Math.ceil(Date.now() / 120000) * 120000
 				thisBoardSeed = nextBoardSeed - 120000
