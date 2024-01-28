@@ -82,7 +82,7 @@
 		</div>
 		<ul>
 			{#each gameBoard.words as word}
-				<li>{word}</li>
+				<li class:found={words.has(word)}>{word}</li>
 			{/each}
 		</ul>
 	</div>
@@ -103,6 +103,11 @@
 	li {
 		font-size: 1.5rem;
 		padding: 0 0.5rem;
+	}
+
+	li.found {
+		text-decoration: line-through;
+		color: #16a220;
 	}
 
 	.wrapper {
