@@ -9,10 +9,9 @@
 	let state: 'waiting' | 'game' | 'score' = 'waiting'
 
 	let words: Set<string> = new Set<string>()
-	let timer: NodeJS.Timeout
+	let timer: ReturnType<typeof setInterval>
 	let waitTime = -1
 	let gameTime = -1
-	let scoreTime = -1
 	let nextBoardSeed = Math.ceil(Date.now() / 120000) * 120000
 	let thisBoardSeed = nextBoardSeed - 120000
 	let randomBoard =
@@ -26,7 +25,6 @@
 		timer = setInterval(() => {
 			waitTime -= 1000
 			gameTime = waitTime - 30 * 1000
-			scoreTime = waitTime - gameTime
 
 			if (waitTime <= 0) {
 				waitTime = Math.ceil(Date.now() / 120000) * 120000 - Date.now()

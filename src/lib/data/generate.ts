@@ -3,17 +3,21 @@ import { GameBoard } from '$lib/engine/game-board'
 import type { Board, Cell } from '$lib/types'
 import * as fs from 'fs'
 
+type NestedObject = {
+	[key: string]: NestedObject | boolean
+}
+
 // Goes through the wordlist and creates single object which is a nested tree where the keys are individual letters each level
 // contains the next letter in the word. The last level contains the word itself.
 function generateBoard(): Board {
-	const data = {} as any
-	const possibleLetters = {} as any
+	const data: NestedObject = {}
+	const possibleLetters: { [key: string]: boolean } = {}
 
 	// Filter out words that are less than 3 letters long
-	const list = wordlist.filter((word) => word.length > 2)
+	const list: string[] = wordlist.filter((word) => word.length > 2)
 	const longWords = list.filter((word) => word.length > 7)
 	list.forEach((word) => {
-		word.split('').reduce((acc, letter, index, arr) => {
+		word.split('').reduce((acc: NestedObject, letter: string, index: number, arr: string[]) => {
 			possibleLetters[letter] = true
 			if (!acc[letter]) {
 				acc[letter] = {}
@@ -22,7 +26,7 @@ function generateBoard(): Board {
 			if (index === arr.length - 1) {
 				acc[letter] = { $: true }
 			}
-			return acc[letter]
+			return acc[letter] as NestedObject
 		}, data)
 	})
 
@@ -79,19 +83,22 @@ function generateBoard(): Board {
 		}
 	})
 
-	function findWordsInBoard(board: Cell[], words: any): string[] {
+	function findWordsInBoard(board: Cell[], words: NestedObject): string[] {
 		const foundWords = new Set<string>()
 
-		function dfs(cell: Cell, node: any, path: string[]) {
+		function dfs(cell: Cell, node: NestedObject, path: string[]) {
 			const letter = cell.value
-			if (!node[letter]) {
+			const nextNode = node[letter]
+
+			// Ensure nextNode is not a boolean before proceeding
+			if (!nextNode || typeof nextNode === 'boolean') {
 				return // No further path in the trie
 			}
 
 			// Add letter to current path
 			path.push(letter)
 
-			if (node[letter]['$']) {
+			if (nextNode['$']) {
 				// Found a complete word
 				foundWords.add(path.join(''))
 			}
@@ -101,7 +108,7 @@ function generateBoard(): Board {
 			// Explore neighbors
 			for (const neighbor of cell.neighbors) {
 				if (!neighbor.checked) {
-					dfs(neighbor, node[letter], path)
+					dfs(neighbor, nextNode, path) // nextNode is already confirmed to be a NestedObject
 				}
 			}
 

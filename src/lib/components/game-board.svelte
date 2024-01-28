@@ -3,7 +3,6 @@
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
-	import { onDestroy, onMount } from 'svelte'
 
 	export let gameBoard: GameBoard
 	export let words: Set<string>
@@ -104,13 +103,13 @@
 			<GameCell
 				{...cell}
 				{index}
-				on:mouseenter={(e) => {
+				on:mouseenter={() => {
 					onmouseenter(cell)
 				}}
-				on:mousedown={(e) => {
+				on:mousedown={() => {
 					onmousedown(cell)
 				}}
-				on:touchstart={(e) => {
+				on:touchstart={() => {
 					onmousedown(cell)
 				}}
 			/>
