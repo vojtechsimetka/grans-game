@@ -66,7 +66,7 @@
 			<button on:click={() => (state = 'game')}>Play anyway</button>
 		{:else}
 			<h1>
-				The game will start soon in {`${Math.floor(waitTime / 60 / 1000).toFixed()}:${((waitTime / 1000) % 60).toFixed().padStart(2, '0')}`}
+				The game will start in {`${Math.floor(waitTime / 60 / 1000).toFixed()}:${((waitTime / 1000) % 60).toFixed().padStart(2, '0')}`}
 			</h1>
 		{/if}
 	</div>
