@@ -1,6 +1,8 @@
 export interface Cell {
 	value: string
 	checked: boolean
+	correct: boolean
+	wrong: boolean
 	neighbors: Cell[]
 }
 

@@ -4,12 +4,16 @@
 	export let index: number
 	export let value: string
 	export let checked: boolean = false
+	export let correct: boolean = false
+	export let wrong: boolean = false
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <g
 	class="cell"
 	class:checked
+	class:correct
+	class:wrong
 	on:mouseenter|preventDefault|nonpassive
 	on:mouseleave|preventDefault|nonpassive
 	on:mousedown|preventDefault|nonpassive
@@ -35,10 +39,14 @@
 	.cell {
 		cursor: pointer;
 	}
-	/* g:hover path.bg, */
+	g.wrong path.bg {
+		fill: #f9a9a2;
+	}
+	g.correct path.bg {
+		fill: #a2f9a8;
+	}
 	g.checked path.bg {
-		fill: #ccc;
-		fill-opacity: 0.5;
+		fill: #a2bbf9;
 	}
 	g path.bg {
 		fill: rgba(255, 255, 255, 0);

@@ -57,6 +57,8 @@ export class GameBoard {
 		this.cells = letters.map((value) => ({
 			value,
 			checked: false,
+			correct: false,
+			wrong: false,
 			neighbors: [],
 		}))
 
@@ -132,15 +134,22 @@ export class GameBoard {
 	}
 
 	finalizeSelection(): string | undefined {
-		this.cells.forEach((cell) => {
-			cell.checked = false
-		})
 		const word = this.selectedCells.map((cell) => cell.value).join('')
 		if (this.words.includes(word)) {
 			this.score += getScore(this.selectedCells.length)
+			this.selectedCells.forEach((cell) => {
+				cell.checked = false
+				cell.correct = true
+				cell.wrong = false
+			})
 			this.selectedCells = []
 			return word
 		}
+		this.selectedCells.forEach((cell) => {
+			cell.checked = false
+			cell.correct = false
+			cell.wrong = true
+		})
 		this.selectedCells = []
 	}
 
@@ -150,6 +159,13 @@ export class GameBoard {
 	}
 
 	addCellToSelection(cell: Cell) {
+		if (this.selectedCells.length === 0) {
+			this.cells.forEach((cell) => {
+				cell.checked = false
+				cell.correct = false
+				cell.wrong = false
+			})
+		}
 		this.selectedCells.push(cell)
 		cell.checked = true
 	}
