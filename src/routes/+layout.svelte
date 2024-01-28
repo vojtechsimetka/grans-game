@@ -30,7 +30,7 @@
 
 		// FIXME: once telegram mini-app is not closed on scroll down this can be removed
 		if (Telegram.WebApp.platform === 'ios' || Telegram.WebApp.platform === 'android')
-			endOfPage.scrollIntoView({ behavior: 'instant' })
+			setTimeout(() => endOfPage.scrollIntoView({ behavior: 'instant' }), 100)
 	})
 
 	let endOfPage: HTMLDivElement

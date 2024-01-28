@@ -94,11 +94,6 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="wrapper" on:mouseup={onmouseup} on:touchend={onmouseup}>
-	<h1>
-		{gameBoard.selectedCells.length > 0
-			? gameBoard.selectedCells.map((c) => c.value).join('')
-			: 'Create a word...'}
-	</h1>
 	<svg
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
@@ -133,8 +128,17 @@
 		{/each}
 	</svg>
 	<ul>
-		{#each Array.from(words).slice(-10).reverse() as word, index}
-			<li style={`order: ${index}`}>{word}</li>
+		{#if gameBoard.selectedCells.length > 0 || words.size === 0}
+			<li>
+				{gameBoard.selectedCells.length > 0
+					? gameBoard.selectedCells.map((c) => c.value).join('')
+					: words.size === 0
+						? 'Create a word...'
+						: ''}
+			</li>
+		{/if}
+		{#each Array.from(words).slice(-10).reverse() as word}
+			<li>{word}</li>
 		{/each}
 	</ul>
 </div>
