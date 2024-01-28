@@ -4,6 +4,7 @@
 	import { onDestroy, onMount } from 'svelte'
 	import boards from '$lib/data/boards.json'
 	import { Random } from '$lib/engine/utils'
+	import logo from '$lib/data/logo.png'
 
 	let state: 'waiting' | 'game' | 'score' = 'waiting'
 
@@ -55,7 +56,8 @@
 {:else if state === 'waiting'}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="wrapper" on:mouseup|preventDefault|nonpassive on:touchend|preventDefault|nonpassive>
-		<p>You've been invited to play Gran's Game</p>
+		<p>You've been invited to play</p>
+		<img src={logo} alt="logo" />
 		{#if gameTime > 0}
 			<h1>There is already a game in process</h1>
 			<p>
@@ -86,6 +88,9 @@
 {/if}
 
 <style>
+	img {
+		max-height: 300px;
+	}
 	h1 {
 		text-align: center;
 	}
