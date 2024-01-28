@@ -3,12 +3,11 @@
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
-	import { onMount } from 'svelte'
-	import boards from '$lib/data/boards.json'
+	import { onDestroy, onMount } from 'svelte'
 
-	const randomBoard = boards[Math.floor(Math.random() * boards.length)]
-
-	let gameBoard: GameBoard = new GameBoard(randomBoard.board, randomBoard.words)
+	export let gameBoard: GameBoard
+	export let words: Set<string>
+	export let gameTime: number
 
 	let isMouseDown = false
 
@@ -73,26 +72,6 @@
 			}
 		}
 	}
-
-	let words: Set<string> = new Set<string>()
-	let time = 2 * 60
-	let timer: NodeJS.Timeout
-
-	onMount(() => {
-		timer = setInterval(() => {
-			time -= 1
-			if (time <= 0) {
-				time = 0
-
-				clearInterval(timer)
-				var userResponse = confirm(`Game over! Your score is ${gameBoard.score}`)
-				if (userResponse) {
-					// Refresh the page
-					window.location.reload()
-				}
-			}
-		}, 1000)
-	})
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -104,7 +83,7 @@
 	<div class="score">
 		<div>Score: {gameBoard.score}</div>
 		<div>
-			Time: {`${Math.floor(time / 60).toFixed()}:${(time % 60).toFixed().padStart(2, '0')}`}
+			Time: {`${Math.floor(gameTime / 60 / 1000).toFixed()}:${((gameTime / 1000) % 60).toFixed().padStart(2, '0')}`}
 		</div>
 	</div>
 	<svg
