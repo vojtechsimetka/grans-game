@@ -29,7 +29,8 @@
 	let isMouseDown = false
 
 	function onmouseup() {
-		msg = gameBoard.selectedCells.map((c) => c.value).join('')
+		words.add(gameBoard.selectedCells.map((c) => c.value).join(''))
+		words = words
 		isMouseDown = false
 		gameBoard.finalizeSelection()
 		gameBoard = gameBoard
@@ -88,11 +89,16 @@
 		}
 	}
 
-	let msg = 'hello'
+	let words: Set<string> = new Set<string>()
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="wrapper" on:mouseup={onmouseup} on:touchend={onmouseup}>
+	<h1>
+		{gameBoard.selectedCells.length > 0
+			? gameBoard.selectedCells.map((c) => c.value).join('')
+			: 'Create a word...'}
+	</h1>
 	<svg
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +106,6 @@
 		x="0"
 		y="0"
 		width="100%"
-		height="100%"
 		viewBox="0, 0, 320, 320"
 		on:touchmove={handleTouchMove}
 	>
@@ -127,9 +132,11 @@
 			/>
 		{/each}
 	</svg>
-	<div style="widht: 100%; height: 50px;">
-		{msg}
-	</div>
+	<ul>
+		{#each Array.from(words).slice(-10).reverse() as word, index}
+			<li style={`order: ${index}`}>{word}</li>
+		{/each}
+	</ul>
 </div>
 
 <style>
@@ -140,6 +147,56 @@
 		-ms-user-select: none; /* IE/Edge */
 		user-select: none; /* Standard syntax */
 		-webkit-touch-callout: none; /* iOS Safari */
+		flex-grow: 1;
+	}
+
+	ul {
+		height: 50%;
+		display: flex;
+		flex-direction: column;
+		list-style: none;
+		text-align: center;
+	}
+
+	li:nth-child(1) {
+		font-size: 2rem;
+		opacity: 1;
+	}
+	li:nth-child(2) {
+		font-size: 1.5rem;
+		opacity: 0.9;
+	}
+	li:nth-child(3) {
+		font-size: 1.25rem;
+		opacity: 0.8;
+	}
+	li:nth-child(4) {
+		font-size: 1.1rem;
+		opacity: 0.7;
+	}
+	li:nth-child(5) {
+		font-size: 1rem;
+		opacity: 0.6;
+	}
+	li:nth-child(6) {
+		font-size: 0.9rem;
+		opacity: 0.5;
+	}
+	li:nth-child(7) {
+		font-size: 0.8rem;
+		opacity: 0.4;
+	}
+	li:nth-child(8) {
+		font-size: 0.7rem;
+		opacity: 0.3;
+	}
+	li:nth-child(9) {
+		font-size: 0.6rem;
+		opacity: 0.2;
+	}
+	li:nth-child(10) {
+		font-size: 0.5rem;
+		opacity: 0.1;
 	}
 
 	.wrapper {
