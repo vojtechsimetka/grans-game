@@ -3,6 +3,7 @@
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
+	import { onMount } from 'svelte'
 
 	let gameBoard = new GameBoard([
 		'a',
@@ -65,7 +66,6 @@
 	function handleTouchMove(event: TouchEvent) {
 		isMouseDown = true
 
-		event.preventDefault()
 		const touch = event.touches[0]
 
 		// Get the element at the touch position
@@ -90,10 +90,40 @@
 	}
 
 	let words: Set<string> = new Set<string>()
+	let time = 2 * 60
+	let timer: NodeJS.Timeout
+
+	onMount(() => {
+		timer = setInterval(() => {
+			time -= 1
+			if (time <= 0) {
+				time = 0
+
+				clearInterval(timer)
+				var userResponse = confirm(`Game over! Your score is ${gameBoard.score}`)
+				if (userResponse) {
+					// Refresh the page
+					window.location.reload()
+				}
+			}
+		}, 1000)
+	})
+
+	$: console.log(gameBoard.selectedCells.length === 0 && words.size !== 0)
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="wrapper" on:mouseup={onmouseup} on:touchend={onmouseup}>
+<div
+	class="wrapper"
+	on:mouseup|preventDefault|nonpassive={onmouseup}
+	on:touchend|preventDefault|nonpassive={onmouseup}
+>
+	<div class="score">
+		<div>Score: {gameBoard.score}</div>
+		<div>
+			Time: {`${Math.floor(time / 60).toFixed()}:${(time % 60).toFixed().padStart(2, '0')}`}
+		</div>
+	</div>
 	<svg
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +132,7 @@
 		y="0"
 		width="100%"
 		viewBox="0, 0, 320, 320"
-		on:touchmove={handleTouchMove}
+		on:touchmove|preventDefault|nonpassive={handleTouchMove}
 	>
 		<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 		{#each gameBoard.cells as _, index}
@@ -113,30 +143,25 @@
 				{...cell}
 				{index}
 				on:mouseenter={(e) => {
-					e.preventDefault()
 					onmouseenter(cell)
 				}}
 				on:mousedown={(e) => {
-					e.preventDefault()
 					onmousedown(cell)
 				}}
 				on:touchstart={(e) => {
-					e.preventDefault()
 					onmousedown(cell)
 				}}
 			/>
 		{/each}
 	</svg>
 	<ul>
-		{#if gameBoard.selectedCells.length > 0 || words.size === 0}
-			<li>
-				{gameBoard.selectedCells.length > 0
-					? gameBoard.selectedCells.map((c) => c.value).join('')
-					: words.size === 0
-						? 'Create a word...'
-						: ''}
-			</li>
-		{/if}
+		<li class:transparent={gameBoard.selectedCells.length === 0 && words.size !== 0}>
+			{gameBoard.selectedCells.length > 0
+				? gameBoard.selectedCells.map((c) => c.value).join('')
+				: words.size === 0
+					? 'Create a word...'
+					: '_______'}
+		</li>
 		{#each Array.from(words).slice(-10).reverse() as word}
 			<li>{word}</li>
 		{/each}
@@ -165,6 +190,10 @@
 	li:nth-child(1) {
 		font-size: 2rem;
 		opacity: 1;
+	}
+
+	li:nth-child(1).transparent {
+		opacity: 0;
 	}
 	li:nth-child(2) {
 		font-size: 1.5rem;
@@ -202,6 +231,10 @@
 		font-size: 0.5rem;
 		opacity: 0.1;
 	}
+	li:nth-child(11) {
+		font-size: 0.4rem;
+		opacity: 0.01;
+	}
 
 	.wrapper {
 		width: 100vw;
@@ -217,5 +250,17 @@
 		top: 0;
 		left: 0;
 		z-index: 1000;
+	}
+
+	.score {
+		width: 100vw;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 2rem;
+	}
+	.score > div {
+		padding: 1rem;
 	}
 </style>

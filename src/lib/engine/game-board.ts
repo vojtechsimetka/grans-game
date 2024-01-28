@@ -3,6 +3,7 @@ import type { Cell } from '$lib/types'
 export class GameBoard {
 	cells: Cell[]
 	selectedCells: Cell[] = []
+	score: number = 0
 
 	constructor(letters: string[]) {
 		if (letters.length !== 19) {
@@ -90,6 +91,7 @@ export class GameBoard {
 		this.cells.forEach((cell) => {
 			cell.checked = false
 		})
+		this.score += this.selectedCells.length
 		this.selectedCells = []
 	}
 

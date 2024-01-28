@@ -7,10 +7,17 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<g class="cell" class:checked on:mouseenter on:mouseleave on:mousedown id={index.toFixed()}>
+<g
+	class="cell"
+	class:checked
+	on:mouseenter|preventDefault|nonpassive
+	on:mouseleave|preventDefault|nonpassive
+	on:mousedown|preventDefault|nonpassive
+	id={index.toFixed()}
+>
 	<path class="bg" d={cells[index].path} />
 	<text transform={cells[index].transform}>
-		<tspan y="12.804" font-family="Arial-BoldMT" font-size="33" fill="#000000">
+		<tspan y="12.804">
 			{value.toUpperCase()}
 		</tspan>
 	</text>
@@ -20,6 +27,10 @@
 <style>
 	text {
 		text-anchor: middle;
+		font-family: Arial;
+		font-weight: bold;
+		font-size: 33px;
+		fill: #000000;
 	}
 	.cell {
 		cursor: pointer;
