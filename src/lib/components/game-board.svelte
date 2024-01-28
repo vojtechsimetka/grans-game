@@ -13,10 +13,12 @@
 	let isMouseDown = false
 
 	function onmouseup() {
-		words.add(gameBoard.selectedCells.map((c) => c.value).join(''))
 		words = words
 		isMouseDown = false
-		gameBoard.finalizeSelection()
+		const res = gameBoard.finalizeSelection()
+		if (res) {
+			words.add(res)
+		}
 		gameBoard = gameBoard
 	}
 

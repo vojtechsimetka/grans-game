@@ -1,5 +1,46 @@
 import type { Cell } from '$lib/types'
 
+const getScore = (length: number) => {
+	switch (length) {
+		case 3:
+			return 1
+		case 4:
+			return 2
+		case 5:
+			return 3
+		case 6:
+			return 5
+		case 7:
+			return 8
+		case 8:
+			return 13
+		case 9:
+			return 21
+		case 10:
+			return 34
+		case 11:
+			return 55
+		case 12:
+			return 89
+		case 13:
+			return 144
+		case 14:
+			return 233
+		case 15:
+			return 377
+		case 16:
+			return 610
+		case 17:
+			return 987
+		case 18:
+			return 1597
+		case 19:
+			return 2584
+		default:
+			return 0
+	}
+}
+
 export class GameBoard {
 	cells: Cell[]
 	selectedCells: Cell[] = []
@@ -90,11 +131,16 @@ export class GameBoard {
 		this.cells[18].neighbors = [this.cells[17], this.cells[14], this.cells[15]]
 	}
 
-	finalizeSelection() {
+	finalizeSelection(): string | undefined {
 		this.cells.forEach((cell) => {
 			cell.checked = false
 		})
-		this.score += this.selectedCells.length
+		const word = this.selectedCells.map((cell) => cell.value).join('')
+		if (this.words.includes(word)) {
+			this.score += getScore(this.selectedCells.length)
+			this.selectedCells = []
+			return word
+		}
 		this.selectedCells = []
 	}
 
