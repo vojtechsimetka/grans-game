@@ -5,18 +5,13 @@
 	import { GameBoard } from '$lib/engine/game-board'
 
 	export let gameBoard: GameBoard
-	export let words: Set<string>
 	export let gameTime: number
 
 	let isMouseDown = false
 
 	function onmouseup() {
-		words = words
 		isMouseDown = false
-		const res = gameBoard.finalizeSelection()
-		if (res) {
-			words.add(res)
-		}
+		gameBoard.finalizeSelection()
 		gameBoard = gameBoard
 	}
 
@@ -116,14 +111,14 @@
 		{/each}
 	</svg>
 	<ul>
-		<li class:transparent={gameBoard.selectedCells.length === 0 && words.size !== 0}>
+		<li class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.size !== 0}>
 			{gameBoard.selectedCells.length > 0
 				? gameBoard.selectedCells.map((c) => c.value).join('')
-				: words.size === 0
+				: gameBoard.foundWords.size === 0
 					? 'Create a word...'
 					: '_______'}
 		</li>
-		{#each Array.from(words).slice(-10).reverse() as word}
+		{#each Array.from(gameBoard.foundWords).slice(-10).reverse() as word}
 			<li>{word}</li>
 		{/each}
 	</ul>

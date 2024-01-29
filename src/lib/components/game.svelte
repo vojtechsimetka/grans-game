@@ -8,7 +8,6 @@
 
 	let state: 'waiting' | 'game' | 'score' = 'waiting'
 
-	let words: Set<string> = new Set<string>()
 	let timer: ReturnType<typeof setInterval>
 	let waitTime = -1
 	let gameTime = -1
@@ -35,7 +34,6 @@
 				randomBoard =
 					boards[Math.floor((new Random(thisBoardSeed).next() * boards.length) % boards.length)]
 				gameBoard = new GameBoard(randomBoard.board, randomBoard.words)
-				words = new Set<string>()
 				state = 'game'
 			}
 
@@ -50,7 +48,7 @@
 </script>
 
 {#if state === 'game'}
-	<GameBoardComponent {gameBoard} bind:words {gameTime} />
+	<GameBoardComponent {gameBoard} {gameTime} />
 {:else if state === 'waiting'}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="wrapper" on:mouseup|preventDefault|nonpassive on:touchend|preventDefault|nonpassive>
@@ -79,7 +77,7 @@
 		</div>
 		<ul>
 			{#each gameBoard.words as word}
-				<li class:found={words.has(word)}>{word}</li>
+				<li class:found={gameBoard.foundWords.has(word)}>{word}</li>
 			{/each}
 		</ul>
 	</div>

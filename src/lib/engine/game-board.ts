@@ -46,6 +46,7 @@ export class GameBoard {
 	selectedCells: Cell[] = []
 	score: number = 0
 	words: string[] = []
+	foundWords: Set<string> = new Set()
 
 	constructor(letters: string[], words: string[]) {
 		if (letters.length !== 19) {
@@ -59,6 +60,7 @@ export class GameBoard {
 			checked: false,
 			correct: false,
 			wrong: false,
+			alreadyFound: false,
 			neighbors: [],
 		}))
 
@@ -136,19 +138,32 @@ export class GameBoard {
 	finalizeSelection(): string | undefined {
 		const word = this.selectedCells.map((cell) => cell.value).join('')
 		if (this.words.includes(word)) {
+			if (this.foundWords.has(word)) {
+				this.selectedCells.forEach((cell) => {
+					cell.checked = false
+					cell.correct = false
+					cell.wrong = false
+					cell.alreadyFound = true
+				})
+				this.selectedCells = []
+				return
+			}
 			this.score += getScore(this.selectedCells.length)
 			this.selectedCells.forEach((cell) => {
 				cell.checked = false
 				cell.correct = true
 				cell.wrong = false
+				cell.alreadyFound = false
 			})
 			this.selectedCells = []
+			this.foundWords.add(word)
 			return word
 		}
 		this.selectedCells.forEach((cell) => {
 			cell.checked = false
 			cell.correct = false
 			cell.wrong = true
+			cell.alreadyFound = false
 		})
 		this.selectedCells = []
 	}
@@ -164,6 +179,7 @@ export class GameBoard {
 				cell.checked = false
 				cell.correct = false
 				cell.wrong = false
+				cell.alreadyFound = false
 			})
 		}
 		this.selectedCells.push(cell)

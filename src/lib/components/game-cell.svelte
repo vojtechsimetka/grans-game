@@ -6,6 +6,7 @@
 	export let checked: boolean = false
 	export let correct: boolean = false
 	export let wrong: boolean = false
+	export let alreadyFound: boolean = false
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -14,6 +15,7 @@
 	class:checked
 	class:correct
 	class:wrong
+	class:alreadyFound
 	on:mouseenter|preventDefault|nonpassive
 	on:mouseleave|preventDefault|nonpassive
 	on:mousedown|preventDefault|nonpassive
@@ -47,6 +49,9 @@
 	}
 	g.checked path.bg {
 		fill: #a2bbf9;
+	}
+	g.alreadyFound path.bg {
+		fill: #f9f5a2;
 	}
 	g path.bg {
 		fill: rgba(255, 255, 255, 0);

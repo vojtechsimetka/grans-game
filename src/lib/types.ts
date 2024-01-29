@@ -3,6 +3,7 @@ export interface Cell {
 	checked: boolean
 	correct: boolean
 	wrong: boolean
+	alreadyFound: boolean
 	neighbors: Cell[]
 }
 
