@@ -32,6 +32,15 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^6.0.0
     version: 6.19.1(eslint@8.56.0)(typescript@5.3.3)
+  dictionary-cs:
+    specifier: ^4.0.0
+    version: 4.0.0
+  dictionary-de:
+    specifier: ^3.0.0
+    version: 3.0.0
+  dictionary-en:
+    specifier: ^4.0.0
+    version: 4.0.0
   esbuild:
     specifier: ^0.20.0
     version: 0.20.0
@@ -1266,6 +1275,18 @@ packages:
 
   /devalue@4.3.2:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
+    dev: true
+
+  /dictionary-cs@4.0.0:
+    resolution: {integrity: sha512-foYC1H71sxEx2QwppL4liEFAD+O5wlyJeZkTFqwz7ux85dI8kQFc8sDmWeObPEXsTtksiuwv+OOdfS2mFY1YVA==}
+    dev: true
+
+  /dictionary-de@3.0.0:
+    resolution: {integrity: sha512-0Xbq+YpWTscAL1e18aPPaqfG4goC2o9T595L/54v2OvOPC0/TJFFlclYanxuUoK73wutM5f9EgSuWGkvQXlOXw==}
+    dev: true
+
+  /dictionary-en@4.0.0:
+    resolution: {integrity: sha512-3NHnE1uq33ZE/CIwaZ6gqxa4BnglHnxeAcTM0GJ7cmtRGcvX9InMK/IqLtYcUMFCUpUNgybH+DzkqdgAo3F1zg==}
     dev: true
 
   /diff-sequences@29.6.3:
