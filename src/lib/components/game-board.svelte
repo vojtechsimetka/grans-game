@@ -3,6 +3,7 @@
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
+	import Language from './language.svelte'
 
 	export let gameBoard: GameBoard
 	export let gameTime: number
@@ -76,6 +77,7 @@
 >
 	<div class="score">
 		<div>Score: {gameBoard.score}</div>
+		<Language />
 		<div>
 			Time: {`${Math.floor(gameTime / 60 / 1000).toFixed()}:${((gameTime / 1000) % 60).toFixed().padStart(2, '0')}`}
 		</div>

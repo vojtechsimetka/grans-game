@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte'
 	import '../style.css'
 	import type { Telegram as TelegramType } from '@twa-dev/types'
+	import { locale } from 'svelte-i18n'
 
 	let Telegram: TelegramType
 

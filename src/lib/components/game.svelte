@@ -5,32 +5,38 @@
 	import boards from '$lib/data/boards.json'
 	import { Random } from '$lib/engine/utils'
 	import logo from '$lib/data/logo.png'
+	import { _ } from 'svelte-i18n'
+	import Language from '$lib/components/language.svelte'
 
 	let state: 'waiting' | 'game' | 'score' = 'waiting'
 
 	let timer: ReturnType<typeof setInterval>
-	let waitTime = -1
-	let gameTime = -1
-	let nextBoardSeed = Math.ceil(Date.now() / 120000) * 120000
-	let thisBoardSeed = nextBoardSeed - 120000
+	const gameDureation = 180000
+	const scoreScreenDuration = 30000
+	const gamePeriod = gameDureation + scoreScreenDuration
+
+	let waitTime = Math.ceil(Date.now() / gamePeriod) * gamePeriod - Date.now()
+	let gameTime = waitTime - scoreScreenDuration
+	let nextBoardSeed = Math.ceil(Date.now() / gamePeriod) * gamePeriod
+	let thisBoardSeed = nextBoardSeed - gamePeriod
 	let randomBoard =
 		boards[Math.floor((new Random(thisBoardSeed).next() * boards.length) % boards.length)]
 	let gameBoard: GameBoard = new GameBoard(randomBoard.board, randomBoard.words)
 
 	onMount(() => {
 		// Calculate how long to wait until the next even minute
-		waitTime = Math.ceil(Date.now() / 120000) * 120000 - Date.now()
-		gameTime = waitTime - 30 * 1000
+		waitTime = Math.ceil(Date.now() / gamePeriod) * gamePeriod - Date.now()
+		gameTime = waitTime - scoreScreenDuration
 		timer = setInterval(() => {
 			waitTime -= 1000
-			gameTime = waitTime - 30 * 1000
+			gameTime = waitTime - scoreScreenDuration
 
 			if (waitTime <= 0) {
-				waitTime = Math.ceil(Date.now() / 120000) * 120000 - Date.now()
-				gameTime = waitTime - 30 * 1000
+				waitTime = Math.ceil(Date.now() / gamePeriod) * gamePeriod - Date.now()
+				gameTime = waitTime - scoreScreenDuration
 
-				nextBoardSeed = Math.ceil(Date.now() / 120000) * 120000
-				thisBoardSeed = nextBoardSeed - 120000
+				nextBoardSeed = Math.ceil(Date.now() / gamePeriod) * gamePeriod
+				thisBoardSeed = nextBoardSeed - gamePeriod
 				randomBoard =
 					boards[Math.floor((new Random(thisBoardSeed).next() * boards.length) % boards.length)]
 				gameBoard = new GameBoard(randomBoard.board, randomBoard.words)
@@ -52,7 +58,8 @@
 {:else if state === 'waiting'}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="wrapper" on:mouseup|preventDefault|nonpassive on:touchend|preventDefault|nonpassive>
-		<p>You've been invited to play</p>
+		<Language />
+		<p>{$_('home.intro')}</p>
 		<img src={logo} alt="logo" />
 		{#if gameTime > 0}
 			<h1>There is already a game in process</h1>
@@ -71,6 +78,7 @@
 	<div class="wrapper" on:mouseup|preventDefault|nonpassive on:touchend|preventDefault|nonpassive>
 		<div class="score">
 			<div>Final score: {gameBoard.score}</div>
+			<Language />
 			<div>
 				{`${Math.floor(waitTime / 60 / 1000).toFixed()}:${((waitTime / 1000) % 60).toFixed().padStart(2, '0')}`}
 			</div>
