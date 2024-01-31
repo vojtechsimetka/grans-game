@@ -2,6 +2,9 @@ import wordlist from './wordlist'
 import { GameBoard } from '$lib/engine/game-board'
 import type { Board, Cell } from '$lib/types'
 import * as fs from 'fs'
+import { Random } from '$lib/engine/utils'
+
+const random = new Random()
 
 type NestedObject = {
 	[key: string]: NestedObject | boolean
@@ -30,12 +33,12 @@ function generateBoard(): Board {
 		}, data)
 	})
 
-	const randomLongWord = longWords[Math.floor(Math.random() * longWords.length)]
+	const randomLongWord = longWords[Math.floor(random.next() * longWords.length)]
 	const gameBoard = new GameBoard(
 		['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
 		[],
 	)
-	const randomIndexStart = Math.floor(Math.random() * gameBoard.cells.length)
+	const randomIndexStart = Math.floor(random.next() * gameBoard.cells.length)
 
 	function populateNextCell(cell: Cell, word: string, index: number): boolean {
 		cell.value = word[index]
@@ -50,14 +53,14 @@ function generateBoard(): Board {
 
 		const maxlen = neighbors.length
 		for (let i = 0; i < maxlen; i++) {
-			const randomNeighbour = neighbors[Math.floor(Math.random() * neighbors.length)]
+			const randomNeighbour = neighbors[Math.floor(random.next() * neighbors.length)]
 			neighbors = neighbors.filter((neighbour) => neighbour !== randomNeighbour)
 			if (populateNextCell(randomNeighbour, word, index + 1)) {
 				return true
 			}
 		}
 
-		const randomNeighbourIndex = Math.floor(Math.random() * cell.neighbors.length)
+		const randomNeighbourIndex = Math.floor(random.next() * cell.neighbors.length)
 		const neighbour = cell.neighbors[randomNeighbourIndex]
 		return populateNextCell(neighbour, word, index + 1)
 	}
@@ -77,7 +80,7 @@ function generateBoard(): Board {
 		if (cell.value === '') {
 			const randomLetter =
 				Object.keys(possibleLetters)[
-					Math.floor(Math.random() * Object.keys(possibleLetters).length)
+					Math.floor(random.next() * Object.keys(possibleLetters).length)
 				]
 			cell.value = randomLetter
 		}
