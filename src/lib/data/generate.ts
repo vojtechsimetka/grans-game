@@ -1,5 +1,5 @@
 import wordlist from './wordlist'
-import { GameBoard } from '$lib/engine/game-board'
+import { withBoardStore } from '$lib/engine/game-board.svelte'
 import type { Board, Cell } from '$lib/types'
 import * as fs from 'fs'
 import { Random } from '$lib/engine/utils'
@@ -34,7 +34,7 @@ function generateBoard(): Board {
 	})
 
 	const randomLongWord = longWords[Math.floor(random.next() * longWords.length)]
-	const gameBoard = new GameBoard(
+	const gameBoard = withBoardStore(
 		['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
 		[],
 	)

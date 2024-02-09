@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { GameBoard } from '$lib/engine/game-board'
+	import { withBoardStore } from '$lib/engine/game-board.svelte'
 	import GameBoardComponent from '$lib/components/game-board.svelte'
 	import { onDestroy, onMount } from 'svelte'
 	import boards from '$lib/data/boards.json'
 	import { Random } from '$lib/engine/utils'
 	import { _ } from 'svelte-i18n'
+	import type { Cell } from '$lib/types'
 
 	interface Props {
 		seed: number
@@ -16,11 +17,8 @@
 	let timer: ReturnType<typeof setInterval> | undefined = $state()
 	let gameTime = $state(gameDuration)
 	let randomBoard = boards[Math.floor((new Random(seed).next() * boards.length) % boards.length)]
-	let gameBoard: GameBoard = $state(new GameBoard(randomBoard.board, randomBoard.words))
 
-	$effect(() => {
-		$inspect(gameBoard)
-	})
+	const gameBoard = withBoardStore(randomBoard.board, randomBoard.words)
 
 	onMount(() => {
 		// Calculate how long to wait until the next even minute
@@ -49,16 +47,20 @@
 		</div>
 	</div>
 </div>
-<GameBoardComponent bind:gameBoard />
+<GameBoardComponent
+	checkCell={gameBoard.checkCell}
+	finalizeSelection={gameBoard.finalizeSelection}
+	cells={gameBoard.cells}
+/>
 <ul>
-	<li class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.size !== 0}>
+	<li class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.length !== 0}>
 		{gameBoard.selectedCells.length > 0
 			? gameBoard.selectedCells.map((c) => c.value).join('')
-			: gameBoard.foundWords.size === 0
+			: gameBoard.foundWords.length === 0
 				? 'Create a word...'
 				: '_______'}
 	</li>
-	{#each Array.from(gameBoard.foundWords).slice(-10).reverse() as word}
+	{#each gameBoard.foundWords.slice(-10).reverse() as word}
 		<li>{word}</li>
 	{/each}
 </ul>

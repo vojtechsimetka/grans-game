@@ -2,28 +2,25 @@
 	import type { Cell } from '$lib/types'
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
-	import { GameBoard } from '$lib/engine/game-board'
 	import { onDestroy, onMount } from 'svelte'
 
 	interface Props {
-		gameBoard: GameBoard
+		cells: Cell[]
+		checkCell: (cell: Cell) => void
+		finalizeSelection: () => void
 	}
-	let { gameBoard } = $props<Props>()
+	let { cells, finalizeSelection, checkCell } = $props<Props>()
 
 	let isMouseDown = $state(false)
-	let count = $state(0)
 
 	function onmouseup() {
 		isMouseDown = false
-		gameBoard.finalizeSelection()
-		count = gameBoard.selectedCells.length
-		gameBoard = gameBoard
+		finalizeSelection()
 	}
 
 	function onmouseenter(cell: Cell) {
 		if (isMouseDown) {
-			gameBoard.checkCell(cell)
-			count = gameBoard.selectedCells.length
+			checkCell(cell)
 		}
 	}
 
@@ -49,7 +46,7 @@
 
 			if (g) {
 				try {
-					const cell = gameBoard.cells[parseInt(g.id)]
+					const cell = cells[parseInt(g.id)]
 					if (cell) {
 						onmouseenter(cell)
 					}
@@ -81,10 +78,10 @@
 	viewBox="0, 0, 320, 320"
 	ontouchmove={handleTouchMove}
 >
-	{#each gameBoard.cells as _, index}
+	{#each cells as _, index}
 		<GameCellBg {index} />
 	{/each}
-	{#each gameBoard.cells as cell, index}
+	{#each cells as cell, index}
 		<GameCell
 			onmouseenter={() => {
 				onmouseenter(cell)
@@ -96,7 +93,6 @@
 				onmousedown(cell)
 			}}
 			{index}
-			{count}
 			{...cell}
 		>
 			{cell.value.toUpperCase()}

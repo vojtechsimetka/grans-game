@@ -8,7 +8,6 @@
 		correct: boolean
 		wrong: boolean
 		alreadyFound: boolean
-		count: number
 	}
 
 	let {
@@ -17,21 +16,12 @@
 		correct = false,
 		wrong = false,
 		alreadyFound = false,
-		count,
 		...restProps
 	} = $props<Props>()
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<g
-	class="cell"
-	class:checked
-	class:correct
-	class:wrong
-	class:alreadyFound
-	id={index.toFixed() + count}
-	{...restProps}
->
+<g class="cell" class:checked class:correct class:wrong class:alreadyFound {...restProps}>
 	<path class="bg" d={cells[index].path} />
 	<text transform={cells[index].transform}>
 		<tspan y="12.804">
