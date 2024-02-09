@@ -1,5 +1,8 @@
 {
 	"home": {
-		"intro": "Byli jste pozváni ke hře."
+		"new-game": "Nová hra",
+		"stats": "Statistiky",
+		"settings": "Nastavení",
+		"about": "O hře"
 	}
 }

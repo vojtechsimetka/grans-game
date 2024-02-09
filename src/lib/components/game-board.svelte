@@ -3,35 +3,27 @@
 	import GameCell from './game-cell.svelte'
 	import GameCellBg from './game-cell-bg.svelte'
 	import { GameBoard } from '$lib/engine/game-board'
-	import Language from './language.svelte'
+	import { onDestroy, onMount } from 'svelte'
 
-	export let gameBoard: GameBoard
-	export let gameTime: number
+	interface Props {
+		gameBoard: GameBoard
+	}
+	let { gameBoard } = $props<Props>()
 
-	let isMouseDown = false
+	let isMouseDown = $state(false)
+	let count = $state(0)
 
 	function onmouseup() {
 		isMouseDown = false
 		gameBoard.finalizeSelection()
+		count = gameBoard.selectedCells.length
 		gameBoard = gameBoard
 	}
 
 	function onmouseenter(cell: Cell) {
 		if (isMouseDown) {
-			const last = gameBoard.selectedCells[gameBoard.selectedCells.length - 1]
-			const secondToLast = gameBoard.selectedCells[gameBoard.selectedCells.length - 2]
-			if (secondToLast === cell) {
-				gameBoard.removeCellFromSelection(last)
-				gameBoard = gameBoard
-			}
-
-			if (
-				!cell.checked &&
-				(gameBoard.selectedCells.length === 0 || last?.neighbors.includes(cell))
-			) {
-				gameBoard.addCellToSelection(cell)
-				gameBoard = gameBoard
-			}
+			gameBoard.checkCell(cell)
+			count = gameBoard.selectedCells.length
 		}
 	}
 
@@ -67,64 +59,50 @@
 			}
 		}
 	}
+
+	onMount(() => {
+		document.addEventListener('touchend', onmouseup, { passive: false })
+		document.addEventListener('mouseup', onmouseup, { passive: false })
+	})
+
+	onDestroy(() => {
+		document.removeEventListener('touchend', onmouseup)
+		document.removeEventListener('mouseup', onmouseup)
+	})
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div
-	class="wrapper"
-	on:mouseup|preventDefault|nonpassive={onmouseup}
-	on:touchend|preventDefault|nonpassive={onmouseup}
+<svg
+	version="1.1"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	x="0"
+	y="0"
+	width="100%"
+	viewBox="0, 0, 320, 320"
+	ontouchmove={handleTouchMove}
 >
-	<div class="score">
-		<div>Score: {gameBoard.score}</div>
-		<Language />
-		<div>
-			Time: {`${Math.floor(gameTime / 60 / 1000).toFixed()}:${((gameTime / 1000) % 60).toFixed().padStart(2, '0')}`}
-		</div>
-	</div>
-	<svg
-		version="1.1"
-		xmlns="http://www.w3.org/2000/svg"
-		xmlns:xlink="http://www.w3.org/1999/xlink"
-		x="0"
-		y="0"
-		width="100%"
-		viewBox="0, 0, 320, 320"
-		on:touchmove|preventDefault|nonpassive={handleTouchMove}
-	>
-		<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-		{#each gameBoard.cells as _, index}
-			<GameCellBg {index} />
-		{/each}
-		{#each gameBoard.cells as cell, index}
-			<GameCell
-				{...cell}
-				{index}
-				on:mouseenter={() => {
-					onmouseenter(cell)
-				}}
-				on:mousedown={() => {
-					onmousedown(cell)
-				}}
-				on:touchstart={() => {
-					onmousedown(cell)
-				}}
-			/>
-		{/each}
-	</svg>
-	<ul>
-		<li class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.size !== 0}>
-			{gameBoard.selectedCells.length > 0
-				? gameBoard.selectedCells.map((c) => c.value).join('')
-				: gameBoard.foundWords.size === 0
-					? 'Create a word...'
-					: '_______'}
-		</li>
-		{#each Array.from(gameBoard.foundWords).slice(-10).reverse() as word}
-			<li>{word}</li>
-		{/each}
-	</ul>
-</div>
+	{#each gameBoard.cells as _, index}
+		<GameCellBg {index} />
+	{/each}
+	{#each gameBoard.cells as cell, index}
+		<GameCell
+			onmouseenter={() => {
+				onmouseenter(cell)
+			}}
+			onmousedown={() => {
+				onmousedown(cell)
+			}}
+			ontouchstart={() => {
+				onmousedown(cell)
+			}}
+			{index}
+			{count}
+			{...cell}
+		>
+			{cell.value.toUpperCase()}
+		</GameCell>
+	{/each}
+</svg>
 
 <style>
 	svg {
@@ -192,33 +170,5 @@
 	li:nth-child(11) {
 		font-size: 0.4rem;
 		opacity: 0.01;
-	}
-
-	.wrapper {
-		width: 100vw;
-		height: 100vh;
-		height: 100dvh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-
-		/* FIXME: once telegram mini-app is not closed on scroll down this can be removed */
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 1000;
-	}
-
-	.score {
-		width: 100vw;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 2rem;
-	}
-	.score > div {
-		padding: 1rem;
 	}
 </style>

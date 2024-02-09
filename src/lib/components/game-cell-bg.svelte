@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { cells } from './cells'
 
-	export let index: number
+	interface Props {
+		index: number
+	}
+
+	const { index } = $props<Props>()
 </script>
 
 <path d={cells[index].path} />

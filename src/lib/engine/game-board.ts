@@ -168,9 +168,11 @@ export class GameBoard {
 		this.selectedCells = []
 	}
 
-	removeCellFromSelection(cell: Cell) {
-		this.selectedCells = this.selectedCells.filter((c) => c !== cell)
-		cell.checked = false
+	removeLastCellFromSelection() {
+		const cell = this.selectedCells.pop()
+		if (cell) {
+			cell.checked = false
+		}
 	}
 
 	addCellToSelection(cell: Cell) {
@@ -184,5 +186,16 @@ export class GameBoard {
 		}
 		this.selectedCells.push(cell)
 		cell.checked = true
+	}
+	checkCell(cell: Cell) {
+		const last = this.selectedCells[this.selectedCells.length - 1]
+		const secondToLast = this.selectedCells[this.selectedCells.length - 2]
+		if (secondToLast === cell) {
+			this.removeLastCellFromSelection()
+		}
+
+		if (!cell.checked && (this.selectedCells.length === 0 || last?.neighbors.includes(cell))) {
+			this.addCellToSelection(cell)
+		}
 	}
 }

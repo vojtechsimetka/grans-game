@@ -1,5 +1,8 @@
 {
 	"home": {
-		"intro": "You've been invited to play."
+		"new-game": "New Game",
+		"stats": "Statistics",
+		"settings": "Settings",
+		"about": "About"
 	}
 }
