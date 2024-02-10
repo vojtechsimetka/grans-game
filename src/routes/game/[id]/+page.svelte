@@ -39,7 +39,7 @@
 	<div class="score">
 		<div>
 			{`Time`}:
-			{new Date(gameTime).toISOString().substr(14, 5)}
+			{new Date(gameTime).toISOString().substring(14, 19)}
 		</div>
 		<div>
 			{`Score`}:
