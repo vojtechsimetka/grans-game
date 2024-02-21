@@ -4,5 +4,10 @@
 		"stats": "Statistics",
 		"settings": "Settings",
 		"about": "About"
+	},
+	"game": {
+		"score": "Score",
+		"time": "Time",
+		"game-over": "Game over"
 	}
 }

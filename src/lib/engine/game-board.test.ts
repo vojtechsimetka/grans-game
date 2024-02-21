@@ -26,7 +26,7 @@ const letters = [
 
 const words: string[] = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqr', 'stu', 'vwx', 'yz']
 
-describe('constructor(...)', () => {
+describe('withBoardStore', () => {
 	it('should create a board with 19 cells', () => {
 		const board = withBoardStore(letters, words)
 		expect(board.cells.length).toBe(19)
@@ -65,7 +65,7 @@ describe('constructor(...)', () => {
 	})
 })
 
-describe('.selectedCells', () => {
+describe('.checkCell', () => {
 	let board: ReturnType<typeof withBoardStore>
 	beforeEach(() => {
 		board = withBoardStore(letters, words)

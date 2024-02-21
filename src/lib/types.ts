@@ -11,3 +11,6 @@ export interface Board {
 	board: string[]
 	words: string[]
 }
+
+export const darkModeOptions = ['dark', 'light', 'system'] as const
+export type DarkModeOption = (typeof darkModeOptions)[number]

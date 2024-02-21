@@ -4,5 +4,10 @@
 		"stats": "Statistiky",
 		"settings": "Nastavení",
 		"about": "O hře"
+	},
+	"game": {
+		"score": "Skóre",
+		"time": "Čas",
+		"game-over": "Konec hry"
 	}
 }

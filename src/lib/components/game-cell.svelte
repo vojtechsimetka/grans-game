@@ -21,7 +21,15 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<g class="cell" class:checked class:correct class:wrong class:alreadyFound {...restProps}>
+<g
+	class="cell"
+	class:checked
+	class:correct
+	class:wrong
+	class:alreadyFound
+	id={index.toFixed()}
+	{...restProps}
+>
 	<path class="bg" d={cells[index].path} />
 	<text transform={cells[index].transform}>
 		<tspan y="12.804">

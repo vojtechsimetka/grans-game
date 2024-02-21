@@ -1,10 +1,13 @@
 <script lang="ts">
 	import '../style.css'
+	import Theme from '$lib/components/ui/theme.svelte'
 </script>
 
-<div class="page">
-	<slot />
-</div>
+<Theme>
+	<div class="page">
+		<slot />
+	</div>
+</Theme>
 
 <style>
 	.page {

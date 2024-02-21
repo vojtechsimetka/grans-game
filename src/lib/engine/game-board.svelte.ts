@@ -122,7 +122,7 @@ export function withBoardStore(letters: string[], words: string[]): BoardStore {
 				cell.wrong = false
 				cell.alreadyFound = false
 			})
-			score = score + scores[selectedCells.length] ?? 0
+			score += scores[selectedCells.length]
 			foundWords.push(word)
 		}
 		selectedCells = []

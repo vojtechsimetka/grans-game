@@ -5,7 +5,6 @@
 	import boards from '$lib/data/boards.json'
 	import { Random } from '$lib/engine/utils'
 	import { _ } from 'svelte-i18n'
-	import type { Cell } from '$lib/types'
 
 	interface Props {
 		seed: number
@@ -38,11 +37,11 @@
 	<h1>{`Word Search`}</h1>
 	<div class="score">
 		<div>
-			{`Time`}:
+			{$_('game.time')}:
 			{new Date(gameTime).toISOString().substring(14, 19)}
 		</div>
 		<div>
-			{`Score`}:
+			{$_('game.score')}:
 			{gameBoard.score}
 		</div>
 	</div>
@@ -101,5 +100,8 @@
 	}
 	.score > div {
 		padding: 1rem;
+	}
+	.transparent {
+		opacity: 0;
 	}
 </style>
