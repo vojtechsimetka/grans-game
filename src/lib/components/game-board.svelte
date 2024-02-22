@@ -74,6 +74,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	x="0"
 	y="0"
+	height="100%"
 	width="100%"
 	viewBox="0, 0, 320, 320"
 	ontouchmove={handleTouchMove}

@@ -33,40 +33,58 @@
 	})
 </script>
 
-<div class="wrapper">
-	<h1>{`Word Search`}</h1>
-	<div class="score">
-		<div>
-			{$_('game.time')}:
-			{new Date(gameTime).toISOString().substring(14, 19)}
-		</div>
-		<div>
-			{$_('game.score')}:
-			{gameBoard.score}
+<div class="page">
+	<div class="wrapper">
+		<h1>{`Word Search`}</h1>
+		<div class="score">
+			<div>
+				{$_('game.time')}:
+				{new Date(gameTime).toISOString().substring(14, 19)}
+			</div>
+			<div>
+				{$_('game.score')}:
+				{gameBoard.score}
+			</div>
 		</div>
 	</div>
+	<div class="game">
+		<GameBoardComponent
+			checkCell={gameBoard.checkCell}
+			finalizeSelection={gameBoard.finalizeSelection}
+			cells={gameBoard.cells}
+		/>
+	</div>
+	<ul>
+		<li
+			class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.length !== 0}
+		>
+			{gameBoard.selectedCells.length > 0
+				? gameBoard.selectedCells.map((c) => c.value).join('')
+				: gameBoard.foundWords.length === 0
+					? 'Create a word...'
+					: '_______'}
+		</li>
+		{#each gameBoard.foundWords.slice(-10).reverse() as word}
+			<li>{word}</li>
+		{/each}
+	</ul>
 </div>
-<GameBoardComponent
-	checkCell={gameBoard.checkCell}
-	finalizeSelection={gameBoard.finalizeSelection}
-	cells={gameBoard.cells}
-/>
-<ul>
-	<li class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.length !== 0}>
-		{gameBoard.selectedCells.length > 0
-			? gameBoard.selectedCells.map((c) => c.value).join('')
-			: gameBoard.foundWords.length === 0
-				? 'Create a word...'
-				: '_______'}
-	</li>
-	{#each gameBoard.foundWords.slice(-10).reverse() as word}
-		<li>{word}</li>
-	{/each}
-</ul>
 
 <style>
-	img {
-		max-height: 300px;
+	.page {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		/* justify-content: center; */
+		width: 100vw;
+		height: 100vh;
+	}
+	.game {
+		width: 100%;
+		height: 100%;
+		max-width: min(90vw, 80vh);
+		max-height: min(90vw, 80vh);
+		flex-grow: 1;
 	}
 	h1 {
 		text-align: center;

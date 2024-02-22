@@ -12,9 +12,9 @@
 
 <ul>
 	<li><a href={`/game/${Date.now()}`}>{$_('home.new-game')}</a></li>
-	<li><a href={`/game/stats`}>{$_('home.stats')}</a></li>
-	<li><a href={`/game/settings`}>{$_('home.settings')}</a></li>
-	<li><a href={`/game/about`}>{$_('home.about')}</a></li>
+	<li><a href={`/stats`}>{$_('home.stats')}</a></li>
+	<li><a href={`/settings`}>{$_('home.settings')}</a></li>
+	<li><a href={`/about`}>{$_('home.about')}</a></li>
 </ul>
 
 <style>
