@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements'
 
-	type Variant = 'primary' | 'secondary' | 'overlay'
+	type Variant = 'primary' | 'secondary' | 'overlay' | 'ghost'
 
 	type Props = {
-		class?: string | null
 		variant?: Variant
 		active?: boolean
 	}
@@ -19,8 +18,6 @@
 		href?: never
 	}
 
-	type $$Props = AnchorElement | ButtonElement
-
 	let {
 		class: className,
 		variant = 'secondary',
@@ -28,53 +25,23 @@
 		href,
 		type,
 		role,
+		children,
 		...restProps
 	} = $props<AnchorElement | ButtonElement>()
-
-	let buttonElement = $state<HTMLButtonElement | HTMLAnchorElement>()
-	let singleSVG = $state(false)
-
-	// Check if the button contains a single SVG element in which case this is icon button
-	$effect(() => {
-		singleSVG = false
-
-		if (buttonElement === undefined) return
-
-		// Filter out comment nodes
-		const nonCommentNodes = Array.from(buttonElement.childNodes).filter(
-			(node) =>
-				!(
-					node.nodeType === Node.COMMENT_NODE ||
-					(node.nodeType === Node.TEXT_NODE && node.textContent === '')
-				),
-		)
-
-		// Check if the only non-comment node is an SVG element
-		if (nonCommentNodes.length === 1 && nonCommentNodes[0] instanceof SVGElement) {
-			singleSVG = true
-		}
-	})
 </script>
 
 <svelte:element
 	this={href ? 'a' : 'button'}
-	bind:this={buttonElement}
 	type={href ? undefined : type}
 	role={role ?? href ? 'link' : 'button'}
 	{href}
-	class:icon={singleSVG}
 	class:active
-	class:variant
 	class={`${variant} ${className}`}
 	{...restProps}
-	on:click
-	on:change
-	on:keydown
-	on:keyup
-	on:mouseenter
-	on:mouseleave
 >
-	<slot />
+	{#if children}
+		{@render children()}
+	{/if}
 </svelte:element>
 
 <style lang="scss">
@@ -87,7 +54,7 @@
 		font-size: var(--font-size-normal);
 		font-weight: var(--font-weight-500);
 		line-height: 1.25;
-		padding: var(--spacing-16);
+		padding: var(--spacing-3);
 		overflow-wrap: normal;
 		cursor: pointer;
 		display: inline-flex;
@@ -95,7 +62,7 @@
 		flex-direction: row;
 		align-items: center;
 		margin-block: 0;
-		gap: var(--spacing-8);
+		gap: var(--spacing-2);
 		white-space: nowrap;
 		text-decoration: none;
 
@@ -105,8 +72,10 @@
 			height: 20px;
 		}
 
+		&:hover:not(:disabled),
 		&:active:not(:disabled),
-		&.active:not(:disabled) {
+		&.active:not(:disabled),
+		&:focus:not(:disabled) {
 			background-color: var(--color-low);
 		}
 
@@ -127,8 +96,10 @@
 				fill: var(--color-base);
 			}
 
+			&:hover:not(:disabled),
 			&:active:not(:disabled),
-			&.active:not(:disabled) {
+			&.active:not(:disabled),
+			&:focus:not(:disabled) {
 				background-color: var(--color-accent);
 			}
 
@@ -146,9 +117,33 @@
 				fill: var(--color-base);
 			}
 
+			&:hover:not(:disabled),
 			&:active:not(:disabled),
-			&.active:not(:disabled) {
+			&.active:not(:disabled),
+			&:focus:not(:disabled) {
 				background-color: var(--color-accent);
+			}
+
+			&:disabled {
+				cursor: not-allowed;
+				opacity: 0.25;
+			}
+		}
+
+		&.ghost {
+			background-color: transparent;
+			border-color: transparent;
+			color: var(--color-ultra-high);
+
+			:global(svg) {
+				fill: var(--color-ultra-high);
+			}
+
+			&:hover:not(:disabled),
+			&:active:not(:disabled),
+			&.active:not(:disabled),
+			&:focus:not(:disabled) {
+				background-color: var(--color-low);
 			}
 
 			&:disabled {

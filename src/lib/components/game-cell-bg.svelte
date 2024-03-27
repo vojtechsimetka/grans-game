@@ -12,8 +12,8 @@
 
 <style>
 	path {
-		fill: white;
-		stroke: black;
+		fill: var(--color-base);
+		stroke: var(--color-ultra-high);
 		stroke-width: 1;
 	}
 </style>

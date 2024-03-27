@@ -1,7 +1,8 @@
 <script lang="ts">
+	// FIXME: this should be removed once issue with using $ in svelte 5 is clearer (here the issue is $locale)
+	/* eslint svelte/valid-compile: 0 */
 	import { browser } from '$app/environment'
 	import { locale, locales } from 'svelte-i18n'
-	import { _ } from 'svelte-i18n'
 
 	// Assuming $locale is automatically set by svelte-i18n to the browser's setting, e.g., 'en-US'
 	$: if ($locale && !$locales.includes($locale)) {

@@ -12,7 +12,10 @@
 <style>
 	.page {
 		height: 100vh;
+		height: 100dvh;
 		width: 100vw;
 		overflow: hidden;
+		background-color: var(--color-base);
+		color: var(--color-ultra-high);
 	}
 </style>

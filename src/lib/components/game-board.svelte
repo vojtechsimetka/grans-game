@@ -79,7 +79,7 @@
 	viewBox="0, 0, 320, 320"
 	ontouchmove={handleTouchMove}
 >
-	{#each cells as _, index}
+	{#each cells as _c, index}
 		<GameCellBg {index} />
 	{/each}
 	{#each cells as cell, index}

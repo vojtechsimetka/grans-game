@@ -16,11 +16,11 @@
 		correct = false,
 		wrong = false,
 		alreadyFound = false,
+		children,
 		...restProps
 	} = $props<Props>()
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <g
 	class="cell"
 	class:checked
@@ -33,7 +33,9 @@
 	<path class="bg" d={cells[index].path} />
 	<text transform={cells[index].transform}>
 		<tspan y="12.804">
-			<slot />
+			{#if children}
+				{@render children()}
+			{/if}
 		</tspan>
 	</text>
 	<path class="fg" d={cells[index].path} />
@@ -45,7 +47,7 @@
 		font-family: Arial;
 		font-weight: bold;
 		font-size: 33px;
-		fill: #000000;
+		fill: var(--color-ultra-high);
 	}
 	.cell {
 		cursor: pointer;

@@ -4,14 +4,22 @@
 	import type { DarkModeOption } from '$lib/types'
 	import { setContext } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
+	import { browser } from '$app/environment'
 
-	interface Props extends HTMLAttributes<HTMLDivElement> {
-		color?: string
-		mode?: DarkModeOption
+	type Props = HTMLAttributes<HTMLDivElement>
+
+	let { class: className, ...restProps } = $props<Props>()
+	let storeColor: string = '#ffffff'
+	let storeMode: DarkModeOption = 'light'
+	try {
+		if (browser) {
+			storeColor = localStorage.getItem('color') ?? '#ffffff'
+			storeMode = (localStorage.getItem('mode') as DarkModeOption) ?? 'light'
+		}
+	} catch (e) {
+		console.log(e)
 	}
-
-	let { color, mode, class: className, ...restProps } = $props<Props>()
-	const themeStore = withThemeSettingsStore(color, mode)
+	const themeStore = withThemeSettingsStore(storeColor, storeMode)
 	let loading = $state(true)
 
 	setContext('theme-store', themeStore)
@@ -19,8 +27,10 @@
 	let wrapper = $state<HTMLDivElement>()
 
 	$effect(() => {
-		if (color !== undefined) themeStore.baseColor = color
-		if (mode !== undefined) themeStore.darkModeSettings = mode
+		if (browser) {
+			localStorage.setItem('color', themeStore.baseColor)
+			localStorage.setItem('mode', themeStore.darkModeSettings)
+		}
 	})
 
 	$effect(() => {

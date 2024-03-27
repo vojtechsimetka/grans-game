@@ -9,5 +9,14 @@
 		"score": "Skóre",
 		"time": "Čas",
 		"game-over": "Konec hry"
+	},
+	"stats": {
+		"back": "Zpět"
+	},
+	"settings": {
+		"back": "Zpět"
+	},
+	"about": {
+		"back": "Zpět"
 	}
 }

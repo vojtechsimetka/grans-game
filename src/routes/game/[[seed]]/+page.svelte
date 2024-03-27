@@ -5,12 +5,10 @@
 	import boards from '$lib/data/boards.json'
 	import { Random } from '$lib/engine/utils'
 	import { _ } from 'svelte-i18n'
+	import { page } from '$app/stores'
+	import { get } from 'svelte/store'
 
-	interface Props {
-		seed: number
-	}
-
-	const { seed } = $props<Props>()
+	const seed = Number(get(page).params.seed ?? Math.random())
 
 	const gameDuration = 150000
 	let timer: ReturnType<typeof setInterval> | undefined = $state()
@@ -20,7 +18,6 @@
 	const gameBoard = withBoardStore(randomBoard.board, randomBoard.words)
 
 	onMount(() => {
-		// Calculate how long to wait until the next even minute
 		timer = setInterval(() => {
 			gameTime -= 1000
 			if (gameTime <= 0) {
@@ -35,7 +32,6 @@
 
 <div class="page">
 	<div class="wrapper">
-		<h1>{`Word Search`}</h1>
 		<div class="score">
 			<div>
 				{$_('game.time')}:
@@ -55,15 +51,13 @@
 		/>
 	</div>
 	<ul>
-		<li
-			class:transparent={gameBoard.selectedCells.length === 0 && gameBoard.foundWords.length !== 0}
-		>
-			{gameBoard.selectedCells.length > 0
-				? gameBoard.selectedCells.map((c) => c.value).join('')
-				: gameBoard.foundWords.length === 0
-					? 'Create a word...'
-					: '_______'}
-		</li>
+		{#if gameBoard.selectedCells.length > 0}
+			<li>
+				{gameBoard.selectedCells.map((c) => c.value).join('')}
+			</li>
+		{:else}
+			<li class="transparent">_</li>
+		{/if}
 		{#each gameBoard.foundWords.slice(-10).reverse() as word}
 			<li>{word}</li>
 		{/each}
@@ -75,7 +69,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		/* justify-content: center; */
 		width: 100vw;
 		height: 100vh;
 	}

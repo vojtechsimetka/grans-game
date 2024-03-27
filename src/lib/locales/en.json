@@ -9,5 +9,14 @@
 		"score": "Score",
 		"time": "Time",
 		"game-over": "Game over"
+	},
+	"stats": {
+		"back": "Back"
+	},
+	"settings": {
+		"back": "Back"
+	},
+	"about": {
+		"back": "Back"
 	}
 }
