@@ -8,7 +8,8 @@
 	"game": {
 		"score": "Skóre",
 		"time": "Čas",
-		"game-over": "Konec hry"
+		"game-over": "Konec hry",
+		"back": "Zpět"
 	},
 	"stats": {
 		"back": "Zpět"

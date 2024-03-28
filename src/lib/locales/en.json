@@ -8,7 +8,8 @@
 	"game": {
 		"score": "Score",
 		"time": "Time",
-		"game-over": "Game over"
+		"game-over": "Game over",
+		"back": "Back"
 	},
 	"stats": {
 		"back": "Back"

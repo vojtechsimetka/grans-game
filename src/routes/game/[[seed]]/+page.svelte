@@ -7,6 +7,8 @@
 	import { _ } from 'svelte-i18n'
 	import { page } from '$app/stores'
 	import { get } from 'svelte/store'
+	import Button from '$lib/components/ui/button.svelte'
+	import { ArrowLeft } from 'carbon-icons-svelte'
 
 	const seed = Number(get(page).params.seed ?? Math.random())
 
@@ -33,6 +35,9 @@
 <div class="page">
 	<div class="wrapper">
 		<div class="score">
+			<div>
+				<Button variant="ghost" href="/"><ArrowLeft />{$_('game.back')}</Button>
+			</div>
 			<div>
 				{$_('game.time')}:
 				{new Date(gameTime).toISOString().substring(14, 19)}

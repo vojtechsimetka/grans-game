@@ -16,8 +16,8 @@
 		href?: never
 		disabled?: boolean
 	}
-	type Propss = AnchorElement | ButtonElement
-	let { variant, active, disabled, href, ...restProps }: Propss = $props()
+
+	let { variant, active, disabled, href, ...restProps }: AnchorElement | ButtonElement = $props()
 </script>
 
 <svelte:element
