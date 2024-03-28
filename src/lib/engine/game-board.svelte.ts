@@ -18,7 +18,7 @@ const scores: Record<number, number> = {
 	17: 987,
 	18: 1597,
 	19: 2584,
-}
+} as const
 
 export interface BoardStore {
 	cells: Cell[]

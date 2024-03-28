@@ -1,5 +1,5 @@
 <script lang="ts">
-	import dic from 'dictionary-de/index.dic?raw'
+	import dic from 'dictionary-cs/index.dic?raw'
 	type Count = {
 		[key: string | number]: number
 	}

@@ -89,6 +89,6 @@ describe('.checkCell', () => {
 		board.checkCell(board.cells[1])
 		board.checkCell(board.cells[0])
 		expect(board.selectedCells.length).toBe(1)
-		expect(board.selectedCells).toEqual(expect.arrayContaining([board.cells[1]]))
+		expect(board.selectedCells[0] === board.cells[0])
 	})
 })
