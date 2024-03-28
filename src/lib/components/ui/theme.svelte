@@ -60,7 +60,7 @@
 		padding: 0;
 
 		// h1
-		--h1-color: var(--colors-ultra-high);
+		--h1-color: var(--color-ultra-high);
 		--h1-font-family: Arial;
 		--h1-font-size: 3rem;
 		--h1-font-style: normal;
@@ -68,7 +68,7 @@
 		--h1-line-height: 1.16;
 
 		// h2
-		--h2-color: var(--colors-ultra-high);
+		--h2-color: var(--color-ultra-high);
 		--h2-font-family: Arial;
 		--h2-font-size: 2.5rem;
 		--h2-font-style: normal;
@@ -76,7 +76,7 @@
 		--h2-line-height: 1.2;
 
 		// h3
-		--h3-color: var(--colors-ultra-high);
+		--h3-color: var(--color-ultra-high);
 		--h3-font-family: Arial;
 		--h3-font-size: 2rem;
 		--h3-font-style: normal;
@@ -84,7 +84,7 @@
 		--h3-line-height: 1.25rem;
 
 		// h4
-		--h4-color: var(--colors-ultra-high);
+		--h4-color: var(--color-ultra-high);
 		--h4-font-family: Arial;
 		--h4-font-size: 1.5rem;
 		--h4-font-style: normal;
@@ -93,7 +93,7 @@
 		--h4-letter-spacing: 0.03rem;
 
 		// h5
-		--h5-color: var(--colors-ultra-high);
+		--h5-color: var(--color-ultra-high);
 		--h5-font-family: Arial;
 		--h5-font-size: 1rem;
 		--h5-font-style: normal;
@@ -102,7 +102,7 @@
 		--h5-letter-spacing: 0.02rem;
 
 		// h6
-		--h6-color: var(--colors-ultra-high);
+		--h6-color: var(--color-ultra-high);
 		--h6-font-family: Arial;
 		--h6-font-size: 0.75rem;
 		--h6-font-style: normal;
@@ -111,7 +111,7 @@
 		--h6-letter-spacing: 0.05rem;
 
 		// Large aragraph
-		--large-paragraph-color: var(--colors-ultra-high);
+		--large-paragraph-color: var(--color-ultra-high);
 		--large-paragraph-font-family: Arial;
 		--large-paragraph-font-size: 1.5rem;
 		--large-paragraph-font-style: normal;
@@ -120,7 +120,7 @@
 		--large-paragraph-letter-spacing: 0.03rem;
 
 		// Paragraph
-		--paragraph-color: var(--colors-ultra-high);
+		--paragraph-color: var(--color-ultra-high);
 		--paragraph-font-family: Arial;
 		--paragraph-font-size: 1rem;
 		--paragraph-font-style: normal;
@@ -129,7 +129,7 @@
 		--paragraph-letter-spacing: 0.02rem;
 
 		// Small paragraph
-		--small-paragraph-color: var(--colors-ultra-high);
+		--small-paragraph-color: var(--color-ultra-high);
 		--small-paragraph-font-family: Arial;
 		--small-paragraph-font-size: 0.75rem;
 		--small-paragraph-font-style: normal;

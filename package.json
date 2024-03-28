@@ -25,6 +25,7 @@
 		"@typescript-eslint/eslint-plugin": "^7.4.0",
 		"@typescript-eslint/parser": "^7.4.0",
 		"@waku-objects/luminance": "^2.0.1",
+		"carbon-icons-svelte": "^12.6.0",
 		"dictionary-cs": "^4.0.0",
 		"dictionary-de": "^3.0.0",
 		"dictionary-en": "^4.0.0",

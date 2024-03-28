@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n'
 	import Button from '$lib/components/ui/button.svelte'
+	import { ArrowLeft } from 'carbon-icons-svelte'
 </script>
 
 <ul>
-	<li><Button variant="ghost" href={`/`}>{$_('about.back')}</Button></li>
+	<li><Button variant="ghost" href={`/`}><ArrowLeft />{$_('about.back')}</Button></li>
 </ul>
 
 <style>

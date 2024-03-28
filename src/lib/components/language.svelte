@@ -2,7 +2,8 @@
 	// FIXME: this should be removed once issue with using $ in svelte 5 is clearer (here the issue is $locale)
 	/* eslint svelte/valid-compile: 0 */
 	import { browser } from '$app/environment'
-	import { locale, locales } from 'svelte-i18n'
+	import { locale, locales, _ } from 'svelte-i18n'
+	import Select from '$lib/components/ui/select.svelte'
 
 	// Assuming $locale is automatically set by svelte-i18n to the browser's setting, e.g., 'en-US'
 	$: if ($locale && !$locales.includes($locale)) {
@@ -14,8 +15,4 @@
 	$: if (browser && $locale) localStorage.setItem('user-lang', $locale)
 </script>
 
-<select bind:value={$locale}>
-	{#each $locales as locale}
-		<option value={locale}>{locale}</option>
-	{/each}
-</select>
+<Select bind:value={$locale} placeholder={$_('settings.language-label')} items={$locales}></Select>
